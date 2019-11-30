@@ -11,7 +11,7 @@
                   [tailrecursion/boot-static                "0.1.0"          :scope "test"]
                   [tailrecursion/boot-bucket                "2.0.0"          :scope "test"]
                   [tailrecursion/boot-front                 "1.1.0"          :scope "test"]
-                  [jumblerg/hoplon                          "7.0.2"]
+                  [jumblerg/hoplon                          "7.0.4"]
                   [cljsjs/markdown                          "0.6.0-beta1-0"]])
 
 (require
