@@ -1,14 +1,14 @@
 (set-env!
   :resource-paths #{"lib/src"}
-  :dependencies '[[org.clojure/clojure                      "1.9.0"          :scope "provided"]
-                  [org.clojure/clojurescript                "1.10.339"       :scope "provided"]
+  :dependencies '[[org.clojure/clojure                      "1.10.1"         :scope "test"]
+                  [org.clojure/clojurescript                "1.10.597"       :scope "test"]
                   [adzerk/env                               "0.4.0"          :scope "test"]
                   [adzerk/boot-cljs                         "1.7.228-2"      :scope "test"]
                   [adzerk/boot-test                         "1.1.2"          :scope "test"]
                   [adzerk/boot-reload                       "0.6.0"          :scope "test"]
                   [adzerk/bootlaces                         "0.1.13"         :scope "test"]
                   [org.seleniumhq.selenium/selenium-support "3.14.0"         :scope "test"]
-                  [tailrecursion/boot-static                "0.1.0"          :scope "test"]
+                  [tailrecursion/boot-static                "0.2.0"          :scope "test"]
                   [tailrecursion/boot-bucket                "2.0.0"          :scope "test"]
                   [tailrecursion/boot-front                 "1.1.0"          :scope "test"]
                   [jumblerg/hoplon                          "7.0.4"]
