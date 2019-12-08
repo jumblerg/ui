@@ -1,4 +1,28 @@
-(ns hoplon.ui.utils)
+(ns hoplon.ui.utils
+  (:require
+    [clojure.java.io :refer [resource]])
+  (:import
+    [java.util Base64]
+    [java.nio.file Files Paths]))
+
+(def mime-types
+  {"ttf"   "application/x-font-truetype"
+   "otf"   "application/x-font-opentype"
+   "woff"  "application/font-woff"
+   "woff2" "application/font-woff2"
+   "eot"   "application/vnd.ms-fontobject"
+   "svg"   "image/svg+xml"})
+
+(defn data-uri
+  "construct a data uri from the specified filename"
+  [path & [mime-type]]
+  (let [mime-type (or mime-type (mime-types (re-find #"[^.]+$" path)))]
+    (->> (Files/readAllBytes (Paths/get (.toURI (resource path))))
+         (.encodeToString (Base64/getEncoder))
+         (str "data:" mime-type ";charset=utf-8;base64,"))))
+
+(defmacro inline [path & [mime-type]]
+  (data-uri path mime-type))
 
 (defmacro bestow
   "rebind the vars associated with any descendant elements through the inherit
