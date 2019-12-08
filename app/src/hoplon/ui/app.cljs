@@ -78,8 +78,8 @@
 
 ;-- typography ----------------------------------------------------------------;
 
-(def baloo       (font :truetype "baloo.ttf"       :generic :sans-serif))
-(def inconsolata (font :opentype "inconsolata.otf" :generic :sans-serif))
+(def baloo       (font :truetype "baloo.ttf"))
+(def inconsolata (font :opentype "inconsolata.otf"))
 
 (def +title+    {:t 26 :tf baloo       :tc black :tw 2})
 (def +subtitle+ {:t 21 :tf baloo       :tc black :tw 2})
