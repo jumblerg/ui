@@ -1,6 +1,4 @@
-(ns hoplon.ui
-  (:require
-    [clojure.java.io :as io]))
+(ns hoplon.ui)
 
 (defmacro set-in! [elem path value]
   `(set! ~(reduce #(list %2 %1) elem path) (hoplon.ui.attrs/->attr ~value)))
