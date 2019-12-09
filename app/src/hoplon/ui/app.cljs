@@ -391,7 +391,7 @@
           "Prev")
         (pane :eh 800 :ev 600 :d :pile
           (for [[idx* [label filename]] (map-indexed vector images)]
-            (image :e (r 1 1) :o (cell= (r ~(t= (cell= (if (= idx* idx) 1 0)) 2000 i/linear) 1)) :src filename)))
+            (image :e (r 1 1) :fo (cell= (r ~(t= (cell= (if (= idx* idx) 1 0)) 2000 i/linear) 1)) :src filename)))
         (pane -button- :click #(swap! idx (partial nxt (count images)))
           "Next")))
     (pane :eh (r  1 1) :a :mid
