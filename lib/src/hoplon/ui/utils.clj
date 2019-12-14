@@ -12,7 +12,16 @@
    "woff2" "font/woff2"
    "sfnt"  "font/sfnt"
    "eot"   "application/vnd.ms-fontobject"
-   "svg"   "image/svg+xml"})
+   "bmp"   "image/bmp"
+   "gif"   "image/gif"
+   "ico"   "image/vnd.microsoft.icon"
+   "jpg"   "image/jpeg"
+   "jpeg"  "image/jpeg"
+   "png"   "image/png" 
+   "svg"   "image/svg+xml"
+   "tif"   "image/tiff"
+   "tiff"  "image/tiff"
+   "webp"  "image/webp"})
 
 (defn data-uri
   "construct a data uri from the specified filename"
