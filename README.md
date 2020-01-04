@@ -65,18 +65,19 @@ the `form` function is used to set up a context when an atomic transaction must 
 * **picks**: `pick picks`. accepts single and multiple picks from a set of items, respectively.
 
 ### attributes
-the attributes on an `view` may be set by passing its constructor the following keyword arguments.  it's good practice, as a matter of convention, to pass them in the same order they appear below. any attribute may accept the global values `:initial` and `:inherit`.  these attributes may be passed to any view.
+the attributes on an `view` may be set by passing its constructor the following keyword arguments.  it's good practice, as a matter of convention, to pass them in the same order they appear below. any attribute may accept the global values `:initial` and `:inherit`.  these attributes may be passed to any view. these attributes are represented using a concise notation, where the first letter corresponds with the name of tha attribute, and the second letter describes the orientation of that attribute, as illustrated by the diagram below:
+![Box Model](/docs/rsc/box-model.png)
 
 #### view attributes
-**sizes**: `:s :sh :sv`. the size (equal width & height), size horizontal (width) and size vertical (height) values may be one of the three types below. note that an `view` becomes scrollable whenever its size is set *explicitly* and the combined size of its children exceeds it in the same *orientation*.
+**extents**: `:e :eh :ev`. the extent (equal width & height), extent horizontal (width) and extent vertical (height) values may be one of the three types below. note that an `view` becomes scrollable whenever its size is set *explicitly* and the combined size of its children exceeds it in the same *orientation*.
   * **ratio**. *explicitly* and *dependently* in terms of its *parent* `(view :sh (r 1 2) :sv (r 1 2) ...)`.  compresses the padding, border, and gutter around the `view`.
   * **length**. *explicitly* and *independently* in terms of its *self* `(view :sh 100 :sv 100 ...)`. expands the padding and border around the `view`.
   * **nil** (default). *implicitly* and *dependently* in terms of its *children* `(view ...)`. expands the `view`.
 
 #### layout attributes
-the layout attributes specify how an `view` should align and space its children within the space it has been delegated by its parent; they have no impact on the `view` itself.  in ui, the responsibility for positioning views rests exclusively with the containing, or parent, view. this approach not not only brings consistency, but it also facilitates data-driven layouts where an view's children are dynamically populated, typically via hoplon's `*-tpl` macros.
+the layout attributes specify how an `view` should place its children within the space it has been delegated by its parent; they have no impact on the `view` itself.  in ui, the responsibility for positioning views rests exclusively with the containing, or parent, view. this approach not not only brings consistency, but it also facilitates data-driven layouts where an view's children are dynamically populated, typically via hoplon's `*-tpl` macros.
 
-**paddings**: `:p :ph :pv :pl :pr :pt :pb`. the padding values specify the space between the views and the edges of the container.
+**margins**: `:m :mh :mv :ml :mr :mt :mb`. the margine values specify the space between the child views and the edges of the parent view.
 
 **gutters**: `:g :gh :gv`. the gutter, gutter horizontal, and gutter vertical values determine the spacing between the views themselves.
 
@@ -85,6 +86,9 @@ the layout attributes specify how an `view` should align and space its children 
   * `:mid`. align children to the center and/or middle.
   * `:end`. align children to the right and/or bottom.
   * `:jst`. evenly space children to fill all but last line (currently only implemented in the horizontal).
+
+
+
 
 
 ## examples
