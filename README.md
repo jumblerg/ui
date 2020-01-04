@@ -87,10 +87,6 @@ the layout attributes specify how an `view` should place its children within the
   * `:end`. align children to the right and/or bottom.
   * `:jst`. evenly space children to fill all but last line (currently only implemented in the horizontal).
 
-
-
-
-
 ## examples
 masonry layout used on sites like pinterest:
 ```
@@ -102,11 +98,11 @@ masonry layout used on sites like pinterest:
 
 (let [n (b 1 sm 2 md 3 lg 4)]
   (for-tpl [col (cell= (apply map vector (partition n models)))]
-    (view :sh (cell= (r 1 n)) :gv 8
+    (view :eh (cell= (r 1 n)) :gv 8
       (for-tpl [{:keys [image name desc]} col]
-        (image :sh (r 1 1) :av :end :b 1 :bc :grey :url image
-          (view :sh (r 1 1) :f 21 name)
-          (view :sh (r 1 1) :f 18 desc))))))
+        (image :eh (r 1 1) :av :end :t 1 :tc :grey :url image
+          (view :eh (r 1 1) :t 21 name)
+          (view :eh (r 1 1) :t 18 desc))))))
 ```
 
 ## hacking
