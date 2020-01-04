@@ -28,15 +28,15 @@ THIS IS AN EXPERIMENTAL WORK IN PROGRESS. the api is evolving constantly as use 
 ## concepts
 **layout**. there's typically little new about the concepts behind most buzzwords; *responsive layouts*, for example, have been in existence since ancient mesopotamia. for as long as handwriting systems have existed (ISO 15924 for cuneiform), so too have the conventions for determining where symbolic elements should fall on a surface, regardless of the size of that surface. each element, or `view` in ui, follows a time-tested rule for placing its children: left to right, top to bottom. there's nothing new to see here.
 
-the responsibility for positioning views in accordance with this heuristic rests with the parent view. views themselves have no direct control over their own placement; they can only influence it by declaring how much space they need through the size (square) `:s`, size horizontal (width) `:sh`, and size vertical (height) `:sv` attributes.  `hoplon/ui` eschews low level, coordinate-based positioning schemes because they force views to make assumptions about the size of their container which cannot be guaranteed; either additional code will be written to handle the exploding range of size cases or undesirable layout effects will occur.  the left-right-top-bottom heuristic also accommodates data-driven layouts where the number of children is indeterminate at development time.
+the responsibility for positioning views in accordance with this heuristic rests with the parent view. it is important to understand that views themselves do not control their own placement; they can only influence it by declaring how much space they need through the extent (square) `:e`, extent horizontal (width) `:eh`, and extent vertical (height) `:ev` attributes.  `hoplon/ui` eschews low level, coordinate-based positioning schemes because they force views to make assumptions about the size of their container which cannot be guaranteed; either additional code will be written to handle the exploding range of size cases or undesirable layout effects will occur.  this left-right-top-bottom layout heuristic also accommodates data-driven layouts where the number of children is indeterminate at development time.
 
-the general formula each view uses to position its children, however, can be tweaked via the alignment and spacing controls. align horizontal `:ah` and align vertical `:av` specify how extra space in the *lrtb flow* should be allocated. the gutter `:g`, gutter horizontal `:gh` and gutter vertical `:gv` attributes describe how much space should be required between views, while the padding attributes in their various permutations `:p :ph :pv :pl :pr :pt :pb` mandate how much space there should be between those views and the edges of the containing view.
+the general formula each view uses to position its children, however, can be influenced via the alignment and spacing (margin & gutter) inputs. align horizontal `:ah` and align vertical `:av` specify how extra space within the *lrtb flow* should be allocated; gutter `:g`, tgutter horizontal `:gh`, and gutter vertical `:gv` describe how much space should be maintained between the children; and the valious margin attributes `:m :mh :mv :ml :mr :mt :mb` declare how much space should be preseved between the children and the edges of the parent view.
 
-these four layout attributes (size, alignment, gutter, padding) are the only mechanisms that should be used to place views on the screen (with one notable caveat, we're exploring a concept called layers to introduce a depth orientation for overlays).
+these four attributes (extent, margin, gutter, & alignment) are the only mechanisms that should be used to position views on the screen.
 
 **composition**. the sumerians of ancient mesopotamia also learned, over time, to use fewer pictographs of a more general nature in their system of writing. a more abstract visual language of fewer types more easily facilitates the composition of its elements and better enables construction of new abstractions to manage complexity (consider how effortless a game of tetris would be if all the building blocks were squares).  as such, `hopon/ui` dispenses with the html 5 grab-bag of semantic elements in favor of a single base `view`, and avoids toggling between alternate modalities of rules based on how the css *display* and *position* styles are configured (and consequently lacks the ugly, complicated corners where they collide in often inexplicable ways).
 
-**routing**. ui treats the hash within the address bar as another part of the view; it both presents a visualization of and provides a control for changing the application's underlying view state.  this state must itself be persisted elsewhere, typically within a javelin cell containing the application's model.  it's no more appropriate to use the address bar as a data store than it is to use the dom for this purpose.
+**routing**. ui treats the hash within the address bar as another part of the view; it is both a visualization of and control for changing the application's underlying view state. this state must itself be persisted elsewhere, typically within the cell containing the application's model.  it's no more appropriate to use the address bar as a data store than it is to use the dom for this purpose.
 
 ui represents routes as values of the form `[[:foo :bar] {:baz "barf"}]`, where the vector in the first position is the path and the map in the second position corresponds the query string. ui reads and writes these values via the `:route` and `:routechanged` attributes passed to `window` when the application is constructed. like any other attribute, `:route` accepts either a route or, more practically, a formula cell bound to the application model to update the route as the application's state changes.  `:routechanged` accepts a callback that will be invoked with an updated route whenever a users enters a route different for the one being displayed into the address bar.  this callback should be used to update the application's view state in the same fashion that it would be updated through any other user-initiated event, such as clicking a button.
 
@@ -45,7 +45,7 @@ THIS API IS UNDER DEVELOPMENT AND SUBJECT TO ROUTINE BREAKING CHANGES.
 
 ### views
 
-* **view**: `view`.  the primary function somewhat analogous to a div in html.
+* **pane**: `pane`.  the primary view function is somewhat analogous to the div in html.
 
 #### media views
 these constructors return the views necessary to render various kinds of visual media. unlike their html conterparts, they all accept children (which overlay the media content), but unlike other views, their implicit sizes are derived from the media itself.  conversely, when the views are explicitly passed a size argument and this size differs from the size of the underlying media, the `:fit` attribute may be passed the keyword `:fill`, `:cover`, or `:contain` to indicate whether the media content should be stretched, cropped, or reduced in size to fit within the view's area. the media content always remains horizontally and vertically centered behind any children.
@@ -66,10 +66,10 @@ the `form` function is used to set up a context when an atomic transaction must 
 
 ### attributes
 the attributes on an `view` may be set by passing its constructor the following keyword arguments.  it's good practice, as a matter of convention, to pass them in the same order they appear below. any attribute may accept the global values `:initial` and `:inherit`.  these attributes may be passed to any view. these attributes are represented using a concise notation, where the first letter corresponds with the name of tha attribute, and the second letter describes the orientation of that attribute, as illustrated by the diagram below:
-![Box Model](/docs/rsc/box-model.png)
+![Box Model](/doc/rsc/box-model.png)
 
 #### view attributes
-**extents**: `:e :eh :ev`. the extent (equal width & height), extent horizontal (width) and extent vertical (height) values may be one of the three types below. note that an `view` becomes scrollable whenever its size is set *explicitly* and the combined size of its children exceeds it in the same *orientation*.
+**extents**: `:e :eh :ev`. the extent (equal width & hegght), extent horizontal (width) and extent vertical (height) values may be one of the three types below. note that an `view` becomes scrollable whenever its size is set *explicitly* and the combined size of its children exceeds it in the same *orientation*.
   * **ratio**. *explicitly* and *dependently* in terms of its *parent* `(view :sh (r 1 2) :sv (r 1 2) ...)`.  compresses the padding, border, and gutter around the `view`.
   * **length**. *explicitly* and *independently* in terms of its *self* `(view :sh 100 :sv 100 ...)`. expands the padding and border around the `view`.
   * **nil** (default). *implicitly* and *dependently* in terms of its *children* `(view ...)`. expands the `view`.
@@ -77,11 +77,11 @@ the attributes on an `view` may be set by passing its constructor the following 
 #### layout attributes
 the layout attributes specify how an `view` should place its children within the space it has been delegated by its parent; they have no impact on the `view` itself.  in ui, the responsibility for positioning views rests exclusively with the containing, or parent, view. this approach not not only brings consistency, but it also facilitates data-driven layouts where an view's children are dynamically populated, typically via hoplon's `*-tpl` macros.
 
-**margins**: `:m :mh :mv :ml :mr :mt :mb`. the margine values specify the space between the child views and the edges of the parent view.
+**margins**: `:m :mh :mv :ml :mr :mt :mb`. the margin values specify the space between the child views and the edges of the parent view.
 
 **gutters**: `:g :gh :gv`. the gutter, gutter horizontal, and gutter vertical values determine the spacing between the views themselves.
 
-**aligments**: `:a :ah :av`. specify how children should be aligned when there's a difference between the size of the parent and the sum of the children's sizes in the same orientation. when children wrap into multiple lines, both the lines and the children within those lines will be vertically aligned.  the alignment values may be one of the following keywords:
+**aligments**: `:a :ah :av`. specify how children should be aligned when there's a difference between the extent of the parent and the sum of the children's extents in the same orientation. when children wrap into multiple lines, both the lines and the children within those lines will be vertically aligned.  the alignment values may be one of the following keywords:
   * `:beg` (default). align children to the left and/or top.
   * `:mid`. align children to the center and/or middle.
   * `:end`. align children to the right and/or bottom.
